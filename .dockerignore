@@ -1,0 +1,6 @@
+Dockerfile
+venv
+.DS_Store
+Desktop.ini
+.github
+.github/workflows

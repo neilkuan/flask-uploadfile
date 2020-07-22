@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List</title>
+<style>
+div {
+  background-image: linear-gradient(white, green);
+}
+ h1,h2 {
+      font-family: verdana;
+      text-align: center;
+      text-shadow: 2px 2px 5px green;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+}
+td:nth-child(3) {
+  color: green;
+  text-align: left;
+  padding: 8px;
+}
+body {
+  background-image: url("https://avatars2.githubusercontent.com/u/46012524?s=400&u=fa7d3c854bb8658cfe13655a4aa6de3ef96b3000&v=4");
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 300px 300px;
+}
+
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+
+</style>
+</head>
+<body>
+  <h1>Local File List</h1>
+{{table}}
+<br>
+<br>
+    <form method=post>
+      <input type=submit value=back name=back>
+    </form>
+
+</body>
+</html>

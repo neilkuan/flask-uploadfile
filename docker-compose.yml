@@ -1,0 +1,11 @@
+version: '3.7'
+
+services: 
+  api:
+    image: guanyebo/flask-uploadfile 
+    container_name: python-flask
+    privileged: true
+    ports: 
+      - "8080:8080"
+    volumes: 
+      - /mnt/docs:/app/pic:Z

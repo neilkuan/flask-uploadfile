@@ -8,4 +8,4 @@ services:
     ports: 
       - "8080:8080"
     volumes: 
-      - /mnt/docs:/app/pic:Z
+      - $HOME/flask-uploadfile-pic:/app/pic:Z

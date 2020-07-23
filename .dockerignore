@@ -4,3 +4,9 @@ venv
 Desktop.ini
 .github
 .github/workflows
+test.sh
+time-test.py
+sample-flask-table.py
+docker-compose.yml
+README.md
+.gitignore

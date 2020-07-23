@@ -1,17 +1,35 @@
 import os
-import datetime
+from datetime import datetime, timezone, timedelta
 from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory , jsonify , send_file ,render_template
 import json
-import datetime
 
 
+tz = timezone(timedelta(hours=+8))
 UPLOAD_FOLDER = './pic/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip','tar'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+def format_table():
+    from flask_table import Table, Col
+    pic_file_list = os.listdir( './pic' )
+    class ItemTable(Table):
+        name = Col('Name')
+        download_link = Col('Download Link')
+    
+    # Get some objects
+    class Item(object):
+        def __init__(self, name, download_link):
+            self.name = name
+            self.download_link = download_link
+    items = []
+    for i in pic_file_list: 
+        items.append(Item(str(i),'http://nexus-registry.cathayins-dev.com/downloadfile/'+ str(i)))
+    table = ItemTable(items)
+    
+    return table.__html__()
 
 # 解析檔案名稱
 def allowed_file(filename):
@@ -30,11 +48,8 @@ def download_file(name):
     return '''<a href="./downloadfile/{name}" download="{name}">
               {name}</a>'''.format(name=name)
 
-
-# show table .
-def show_table(table):
-    return render_template('table.html',table=table)
-
+def head_two(name):
+    return "<h2> {name} </h2>".format(name=name)
 
 @app.route('/ping')
 def test():
@@ -43,14 +58,12 @@ def test():
 # show table .
 @app.route('/show', methods=['GET', 'POST'])
 def show():
-    return_string=''
-#    if request.method == 'POST':       
-    if request.form.get('back') == "back":
-        return redirect(url_for('upload_file'))
-    dirs = os.listdir( './pic' )
-    for i in dirs:
-        return_string = return_string + "<br>" + download_file(i) 
-    return "List page <br>" +  return_string
+    listfile=''
+    pic_file_list = os.listdir( './pic' )
+    for i in pic_file_list: 
+        listfile += '<br>'+download_file(i)
+    return render_template('show.html', table=listfile)
+    
 
 #Download file
 @app.route('/downloadfile/<filename>', methods=['GET'])
@@ -65,23 +78,27 @@ def upload_file():
     if request.method == 'POST':
 
         if request.form.get('Upload') == "Upload":
-            file = request.files['file']
-            # if user does not select file, browser also
-            # submit an empty part without filename
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                # 儲存在 app 本地端
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            try:
+                file = request.files['file']
+                # if user does not select file, browser also
+                # submit an empty part without filename
+                if file.filename == '':
+                    flash('No selected file')
+                    return redirect(request.url)
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    # 儲存在 app 本地端
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    
+                    datetime.now(tz).isoformat()
+                    time = datetime.now(tz).isoformat(timespec="seconds")
+    
+                    successres = str("Date " + time + " 上傳 " + filename + " 成功")
+    
+                    return render_template('uploadPage.html', successres=successres)
+            except:
+                return render_template('index.html')
 
-                time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-
-                successres = str("Date " + time + " 上傳 " + filename + " 成功")
-
-                return render_template('uploadPage.html', successres=successres)
-                
         if request.form.get('back') == "back":
             return render_template('index.html')
 
@@ -92,7 +109,8 @@ def upload_file():
                 # 儲存在 app 本地端
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-                time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+                datetime.now(tz).isoformat()
+                time = datetime.now(tz).isoformat(timespec="seconds")
                 
                 successres = str("Date " + time + " 上傳 " + filename + " 成功")
             
@@ -109,5 +127,5 @@ def upload_file():
     return render_template('index.html') 
 
 
-# 啟動 flask
-app.run(host='0.0.0.0',port=8080, debug=open)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',port=8080)

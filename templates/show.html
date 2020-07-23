@@ -1,5 +1,7 @@
-<!doctype html>
-<title>Upload</title>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload</title>
 <style>
 body {
   background-image: url("https://avatars2.githubusercontent.com/u/46012524?s=400&u=fa7d3c854bb8658cfe13655a4aa6de3ef96b3000&v=4");
@@ -19,6 +21,22 @@ h1,h2 {
     left: 20px;
     width: 80px;
 }
+table {
+  border-collapse: collapse;
+  width: 40%;
+  text-align: center;
+}
+th {
+  text-align: left;
+  padding: 8px;
+}
+td:nth-child(3) {
+  color: green;
+  text-align: center;
+  padding: 8px;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+
 .button {
     cursor: pointer;
     color: #fff;
@@ -36,10 +54,15 @@ h1,h2 {
     transition: all 0.2s;
 }
 </style>
-<img class="nav__logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
-<h1>{{successres}}</h1>
+</head>
+<body>
+ <img class="nav__logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix Logo">
+   <h1> List File </h1>
+{{ table|safe }}
 <br>
 <br>
-<form method=post>
+<form method=post action="/">
   <input type=submit value=back name=back class="button">
 </form>
+</body>
+</html>

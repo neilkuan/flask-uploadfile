@@ -111,52 +111,30 @@ def show():
 def return_file(filename):
     return send_from_directory(directory='pic', filename=filename, as_attachment=True)
 
+# Upload file
+@app.route('/uploadfile', methods=['POST'])
+def upload_file():
+    try:
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        elif file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # 儲存在 app 本地端
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            successres = str("Date " + what_time_is() + " 上傳 " + filename + " 成功")
+
+            return render_template('uploadPage.html', successres=successres)
+    except:
+        return render_template('index.html')
 
 # 建立上傳網址
 @app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    from flask import render_template
-    if request.method == 'POST':
-
-        if request.form.get('Upload') == "Upload":
-            try:
-                file = request.files['file']
-                # if user does not select file, browser also
-                # submit an empty part without filename
-                if file.filename == '':
-                    flash('No selected file')
-                    return redirect(request.url)
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    # 儲存在 app 本地端
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    
-                    successres = str("Date " + what_time_is() + " 上傳 " + filename + " 成功")
-    
-                    return render_template('uploadPage.html', successres=successres)
-            except:
-                return render_template('index.html')
-
-        if request.form.get('back') == "back":
-            return render_template('index.html')
-
-        try: 
-            file = request.files['file']
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                # 儲存在 app 本地端
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                
-                successres = str("Date " + what_time_is() + " 上傳 " + filename + " 成功")
-            
-                return render_template('uploadPage.html', successres=successres)
-        except:
-            pass
-        
-    if request.method == 'GET':
-        return render_template('index.html')        
-    else:
-        return "have something wrong !!!"
+def index_page():
     return render_template('index.html') 
 
 

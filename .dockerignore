@@ -10,3 +10,10 @@ sample-flask-table.py
 docker-compose.yml
 README.md
 .gitignore
+date-time.py
+package-lock.json
+package.json
+version.json
+node_modules
+LICENSE
+CHANGELOG.md

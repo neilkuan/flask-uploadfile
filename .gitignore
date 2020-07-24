@@ -104,3 +104,7 @@ pic/*.zip
 pic/*.tar
 pic/*.jpeg
 pic/*.pdf
+
+package-lock.json
+package.json
+version.json

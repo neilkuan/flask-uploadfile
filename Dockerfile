@@ -2,6 +2,7 @@ FROM python:3.7-slim
 LABEL MAINTAINER="Neil Kuan"
 LABEL NAME="flask-upload"
 LABEL Version="v1.0.0"
+ENV TZ=Asia/Taipei
 WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt --no-cache-dir

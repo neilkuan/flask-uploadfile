@@ -25,10 +25,16 @@
     color: #fff;
     outline: none;
     border: none;
+    
+
     font-weight: 700;
-    border-radius: .2vw;
+    border-radius: 0.2vw;
+    padding-right: 2rem;
+    padding-left: 2rem;
     margin-right: 1rem;
     padding: .5rem 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     background-color: rgba(51,51,51,.5);
     }
     .button:hover{
@@ -46,6 +52,7 @@
     <br>
     <br>
     <h2>Show Local file Table</h2>
-    <form method=post action="/show">
+    <form method=post display: inline>
       <input type=submit value=show name=show class="button">
+      <input type=submit value=logout name=logout class="button">
     </form>

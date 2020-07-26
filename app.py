@@ -1,10 +1,12 @@
 import os
 from datetime import datetime, timezone, timedelta
-from flask import Flask, flash, request, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request, session, flash, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
-from flask import send_from_directory , jsonify , send_file ,render_template
 import json
 import platform
+from functools import wraps
+import secrets
+
 
 cwd = os.getcwd()
 
@@ -12,6 +14,21 @@ UPLOAD_FOLDER = cwd + '/pic/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip','tar'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# add secret key , example output, secret_key = 000d88cd9d90036ebdd237eb6b0db000
+secret_key = secrets.token_hex(16)
+app.secret_key = secret_key
+
+# LET USER LOGIN FIRST
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('You need to login first.')
+            return redirect(url_for('login'))
+    return wrap
 
 def format_table():
     from flask_table import Table, Col
@@ -91,12 +108,27 @@ def download_file(name):
     <a href="./downloadfile/{name}" download="{name}">{name}</a>
     </div>'''.format(name=name , file_create_time=file_create_time, file_size=file_size)
 
+# login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            session['logged_in'] = True
+            flash('Your already login !!!')
+            return redirect(url_for('index_page'))
+            
+    return render_template('login.html', error=error)
+
 @app.route('/ping')
 def test():
     return jsonify({"message": "pong!!!" })
 
 # show table .
 @app.route('/show', methods=['GET', 'POST'])
+@login_required
 def show():
     listfile='''<div style=inline><p> File Create Time </p>
     <p></p><p></p><p></p><p></p>
@@ -136,9 +168,29 @@ def upload_file():
 
 # 建立上傳網址
 @app.route('/', methods=['GET', 'POST'])
+@login_required
 def index_page():
-    return render_template('index.html') 
+    if request.form.get('show') == "show":
+        return redirect(url_for('show'))
 
+    elif request.form.get('logout') == "logout":
+        return redirect(url_for('logout'))
 
+    else:
+        return render_template('index.html') 
+
+@app.route('/welcome')
+def welcome():
+    return render_template('welcome.html')  # render a template
+
+# define logout 
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    session.pop('logged_in', None)
+    flash('You already logout !!!')
+    return redirect(url_for('welcome'))
+
+# start the server
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=8080)

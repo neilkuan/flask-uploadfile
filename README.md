@@ -1,6 +1,11 @@
 # flask-uploadfile
+[![codecov](https://codecov.io/gh/guan840912/flask-uploadfile/branch/master/graph/badge.svg)](https://codecov.io/gh/guan840912/flask-uploadfile)
 
 ### This for easy upload file via python flask . 
+- enable login page 
+- uploadfile 
+- downfile
+- docker image   
 ### you can run in docker .
 
 

@@ -6,14 +6,16 @@ from flask import send_from_directory , jsonify , send_file ,render_template
 import json
 import platform
 
-UPLOAD_FOLDER = './pic/'
+cwd = os.getcwd()
+
+UPLOAD_FOLDER = cwd + '/pic/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip','tar'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def format_table():
     from flask_table import Table, Col
-    pic_file_list = os.listdir( './pic' )
+    pic_file_list = os.listdir( cwd + '/pic' )
     class ItemTable(Table):
         name = Col('Name')
         download_link = Col('Download Link')
@@ -81,8 +83,8 @@ def pp_json(json_thing, sort=True, indents=4):
    return None
 
 def download_file(name):
-    file_create_time = datetime.fromtimestamp(creation_date("./pic/"+name)).isoformat(timespec="seconds")
-    file_size = get_file_size("./pic/"+name)
+    file_create_time = datetime.fromtimestamp(creation_date(cwd + "/pic/" + name)).isoformat(timespec="seconds")
+    file_size = get_file_size(cwd + "/pic/" + name)
     return '''<div style=inline>
     <p>{file_create_time}</p>
     <p>{file_size}</p>
@@ -101,7 +103,7 @@ def show():
     <p> Size </p>
     <p></p><p></p><p></p><p></p>
     <p> Name </p></div>'''
-    pic_file_list = os.listdir( './pic' )
+    pic_file_list = os.listdir( cwd + '/pic' )
     for i in pic_file_list: 
         listfile += download_file(i)+'<br>'
     return render_template('show.html', table=listfile)

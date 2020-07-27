@@ -24,10 +24,9 @@ def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('login'))
+            return f(*args, **kwargs)       
+        flash('You need to login first.')
+        return redirect(url_for('login'))
     return wrap
 
 def format_table():
@@ -52,15 +51,14 @@ def format_table():
 # get file create time .
 def creation_date(path_to_file):
     if platform.system() == 'Windows':
-        return os.path.getctime(path_to_file)
-    else:
-        stat = os.stat(path_to_file)
-        try:
-            return stat.st_birthtime
-        except AttributeError:
-            # We're probably on Linux. No easy way to get creation dates here,
-            # so we'll settle for when its content was last modified.
-            return stat.st_mtime
+        return os.path.getctime(path_to_file)   
+    stat = os.stat(path_to_file)
+    try:
+        return stat.st_birthtime
+    except AttributeError:
+        # We're probably on Linux. No easy way to get creation dates here,
+        # so we'll settle for when its content was last modified.
+        return stat.st_mtime
 
 # print(datetime.fromtimestamp(creation_date('./pic/.gitkeep')).isoformat(timespec="seconds"))
 
@@ -73,31 +71,24 @@ def what_time_is():
 
 # get file size
 def get_file_size(path_to_file):
+    result = None
     try:
         size = os.path.getsize(path_to_file)
         if size <= 1024:
-            return str(size) + " bytes "
-        elif size > 1024 and 1024*1024 >= size:
-            return str(round(size/1024, 2)) + " KB "
-        elif size > 1024*1024 and 1024*1024*1024 >= size:
-            return str(round(size/(1024*1024),2)) + " MB "
-        else:
-            return "None"
-    except:
-        return "have nothing wrong !!!"
+            result = str(size) + " bytes "
+        if size > 1024 and 1024*1024 >= size:
+            result = str(round(size/1024, 2)) + " KB "
+        if size > 1024*1024 and 1024*1024*1024 >= size:
+            result = str(round(size/(1024*1024),2)) + " MB "
+    finally:
+        if result is None:
+            result = 'None'
+    return result
 
 # 解析檔案名稱
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# format josn .
-def pp_json(json_thing, sort=True, indents=4):
-   if type(json_thing) is str:
-       return json.dumps(json.loads(json_thing), sort_keys=sort, indent=indents)
-   else:
-       return  json.dumps(json_thing, sort_keys=sort, indent=indents)
-   return None
 
 def download_file(name):
     file_create_time = datetime.fromtimestamp(creation_date(cwd + "/pic/" + name)).isoformat(timespec="seconds")
@@ -154,8 +145,8 @@ def upload_file():
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
-        elif file and allowed_file(file.filename):
+            return render_template('index.html')
+        if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # 儲存在 app 本地端
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -173,11 +164,10 @@ def index_page():
     if request.form.get('show') == "show":
         return redirect(url_for('show'))
 
-    elif request.form.get('logout') == "logout":
+    if request.form.get('logout') == "logout":
         return redirect(url_for('logout'))
 
-    else:
-        return render_template('index.html') 
+    return render_template('index.html') 
 
 @app.route('/welcome')
 def welcome():

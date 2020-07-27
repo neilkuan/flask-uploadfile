@@ -50,6 +50,10 @@
       <input type=submit value=Upload name=Upload class="button">
     </form>
     <br>
+    <!-- messages -->
+    {% for message in get_flashed_messages() %}
+    {{ message }}
+  {% endfor %}
     <br>
     <h2>Show Local file Table</h2>
     <form method=post display: inline>

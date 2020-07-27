@@ -18,4 +18,3 @@ def format_table():
     table = ItemTable(items)
     
     return table.__html__()
-

@@ -7,8 +7,9 @@ on:
 jobs:
   codecov:
     name: Codecov Workflow
-    runs-on: ubuntu-18.04
-    
+    runs-on: ubuntu-latest
+    env:
+      PYTHON: '3.7'
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python

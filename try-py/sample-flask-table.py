@@ -5,8 +5,7 @@ from flask import send_from_directory , jsonify , send_file ,render_template
 
 '''A example for creating a simple table within a working Flask app.
 Our table has just two columns, one of which shows the name and is a
-link to the item's page. The other shows the description.
-'''
+link to the item's page. The other shows the description.'''
 
 def download_file(name):
     return '''<a href="./downloadfile/{name}" download="{name}">

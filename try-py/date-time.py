@@ -31,7 +31,7 @@ def get_file_size(path_to_file):
         if size > 1024*1024 and 1024*1024*1024 >= size:
             return str(round(size/(1024*1024),2)) + " MB "
         return "None"
-    except:
+    except ZeroDivisionError:
         pass
 
 

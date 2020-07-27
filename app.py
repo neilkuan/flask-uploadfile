@@ -29,25 +29,6 @@ def login_required(f):
         return redirect(url_for('login'))
     return wrap
 
-def format_table():
-    from flask_table import Table, Col
-    pic_file_list = os.listdir( cwd + '/pic' )
-    class ItemTable(Table):
-        name = Col('Name')
-        download_link = Col('Download Link')
-    
-    # Get some objects
-    class Item(object):
-        def __init__(self, name, download_link):
-            self.name = name
-            self.download_link = download_link
-    items = []
-    for i in pic_file_list: 
-        items.append(Item(str(i),'http://nexus-registry.cathayins-dev.com/downloadfile/'+ str(i)))
-    table = ItemTable(items)
-    
-    return table.__html__()
-
 # get file create time .
 def creation_date(path_to_file):
     if platform.system() == 'Windows':

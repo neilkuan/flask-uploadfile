@@ -1,7 +1,7 @@
 FROM python:3.7-slim
 LABEL MAINTAINER="Neil Kuan"
 LABEL NAME="flask-upload"
-LABEL Version="v1.0.0"
+LABEL Version="v1.7.1"
 ENV TZ=Asia/Taipei
 ENV URL='0.0.0.0'
 WORKDIR /app

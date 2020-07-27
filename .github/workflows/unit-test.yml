@@ -4,12 +4,12 @@ on:
     tags:
       - v1*
 jobs:
-  run:
+  codecov:
     runs-on: ubuntu-latest
     env:
       PYTHON: '3.7'
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
     - name: Setup Python
       uses: actions/setup-python@master
       with:
@@ -25,6 +25,3 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
         flags: unittests
-        env_vars: OS,PYTHON
-        name: codecov-umbrella
-        fail_ci_if_error: true

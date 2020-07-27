@@ -3,6 +3,7 @@ LABEL MAINTAINER="Neil Kuan"
 LABEL NAME="flask-upload"
 LABEL Version="v1.0.0"
 ENV TZ=Asia/Taipei
+ENV URL='0.0.0.0'
 WORKDIR /app
 COPY . .
 RUN pip install -r requirements.txt --no-cache-dir

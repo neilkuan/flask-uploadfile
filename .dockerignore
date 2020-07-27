@@ -17,3 +17,8 @@ version.json
 node_modules
 LICENSE
 CHANGELOG.md
+__pycache__
+coverage.xml
+pytest.ini
+tests.py
+try-py

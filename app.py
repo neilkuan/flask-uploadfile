@@ -9,7 +9,7 @@ import secrets
 
 
 cwd = os.getcwd()
-
+URL=os.getenv('URL')
 UPLOAD_FOLDER = cwd + '/pic/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip','tar'])
 app = Flask(__name__)
@@ -183,4 +183,4 @@ def logout():
 
 # start the server
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080)
+    app.run(host=URL,port=8080)

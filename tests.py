@@ -1,6 +1,7 @@
 from app import app
 import unittest
 import io 
+import os 
 
 class FlaskTestCase(unittest.TestCase):
     # Ensure that flask was set up correctly
@@ -20,7 +21,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         response = tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         self.assertIn( b'Upload new File' , response.data,msg=None) 
@@ -54,7 +55,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.post(
@@ -68,7 +69,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.get('/', content_type='html/text')
@@ -81,7 +82,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.get('/show', content_type='html/text')
@@ -92,7 +93,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.post('/uploadfile', data=dict(
@@ -105,7 +106,7 @@ class FlaskTestCase(unittest.TestCase):
         from io import BytesIO
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.post('/uploadfile',data=dict(file=(BytesIO(b''),''),follow_redirects=True))
@@ -115,7 +116,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.get('/downloadfile/.gitkeep')
@@ -125,7 +126,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.post('/',data=dict(show='show'))
@@ -135,7 +136,7 @@ class FlaskTestCase(unittest.TestCase):
         tester = app.test_client(self)
         tester.post(
             '/login',
-            data=dict(username="admin", password="admin"), 
+            data=dict(username="admin", password=os.environ['PASSWORD']), 
             follow_redirects=True
         )
         response = tester.post('/',data=dict(logout='logout'))

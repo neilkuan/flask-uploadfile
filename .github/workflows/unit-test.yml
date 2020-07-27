@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - v1*
+env:
+  PASSWORD: password
 jobs:
   codecov:
     runs-on: ubuntu-latest

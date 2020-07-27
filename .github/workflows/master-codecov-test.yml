@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'master'
+env:
+  PASSWORD: password
 jobs:
   codecov:
     name: Codecov Workflow

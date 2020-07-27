@@ -120,13 +120,14 @@ def return_file(filename):
 # Upload file
 @app.route('/uploadfile', methods=['POST'])
 def upload_file():
+    res = None
     try:
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return render_template('index.html')
+            res = redirect(url_for('index_page'))
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # 儲存在 app 本地端
@@ -134,9 +135,9 @@ def upload_file():
 
             successres = str("Date " + what_time_is() + " 上傳 " + filename + " 成功")
 
-            return render_template('uploadPage.html', successres=successres)
-    except:
-        return render_template('index.html')
+            res = render_template('uploadPage.html', successres=successres)
+    finally:
+        return res
 
 # 建立上傳網址
 @app.route('/', methods=['GET', 'POST'])

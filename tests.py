@@ -40,8 +40,14 @@ class FlaskTestCase(unittest.TestCase):
     # Ensure Please login in /welcome page.
     def test_welcome_page_loads(self):
         tester = app.test_client(self)
-        response = tester.get('/welcome', content_type='html/text')
-        self.assertTrue( b'Welcome to Flask' in response.data)
+        response = tester.get('/welcome', content_type='application/json')
+        self.assertTrue( b'Welcome to Flask!' in response.data)
+
+    # Ensure Please login in /ping page.
+    def test_ping_payloads(self):
+        tester = app.test_client(self)
+        response = tester.get('/ping', content_type='html/text')
+        self.assertTrue( b'{"message":"pong!!!"}' in response.data)
 
     # Ensure logout can use.
     def test_can_secuess_logout_page(self):
@@ -94,6 +100,17 @@ class FlaskTestCase(unittest.TestCase):
         ))
         self.assertIn( b'Date' , response.data,msg=None) 
 
+    def test_no_select_file_upload_file(self):
+        tester = app.test_client(self)
+        from io import BytesIO
+        tester.post(
+            '/login',
+            data=dict(username="admin", password="admin"), 
+            follow_redirects=True
+        )
+        response = tester.post('/uploadfile',data=dict(file=(BytesIO(b''),''),follow_redirects=True))
+        self.assertEqual(response.status_code, 302)
+
     def test_download_file(self):
         tester = app.test_client(self)
         tester.post(
@@ -103,6 +120,26 @@ class FlaskTestCase(unittest.TestCase):
         )
         response = tester.get('/downloadfile/.gitkeep')
         self.assertEqual(response.status_code, 200)
+
+    def test_show_buttom(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/login',
+            data=dict(username="admin", password="admin"), 
+            follow_redirects=True
+        )
+        response = tester.post('/',data=dict(show='show'))
+        self.assertEqual(response.status_code, 302)
+
+    def test_logout_buttom(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/login',
+            data=dict(username="admin", password="admin"), 
+            follow_redirects=True
+        )
+        response = tester.post('/',data=dict(logout='logout'))
+        self.assertEqual(response.status_code, 302)
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - 'master'
-env:
-  PASSWORD: password
 jobs:
   codecov:
     name: Codecov Workflow
@@ -22,9 +20,6 @@ jobs:
         uses: allenevans/set-env@v1.0.0
         with:
           PASSWORD: 'password'
-      - name: Printenv
-        run: |
-         echo "PASSWORD=${PASSWORD}"
       - name: Generate coverage report
         run: |
           pip install pytest

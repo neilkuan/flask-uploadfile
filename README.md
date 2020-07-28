@@ -46,3 +46,9 @@ $ curl -X POST -F file=@"aa.tar" http://localhost:8080/uploadfile
 
 $ wget http://localhost:8080/downloadfile/aa.tar
 ```
+
+
+## Note for run testing need to do first export ENV
+```bash
+export PASSWORD=admin
+```

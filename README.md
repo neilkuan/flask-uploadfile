@@ -2,6 +2,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/guan840912/flask-uploadfile/badge/master)](https://www.codefactor.io/repository/github/guan840912/flask-uploadfile/overview/master)
 [![codecov](https://codecov.io/gh/guan840912/flask-uploadfile/branch/master/graph/badge.svg)](https://codecov.io/gh/guan840912/flask-uploadfile)
 ![Publish Docker](https://github.com/guan840912/flask-uploadfile/workflows/Publish%20Docker/badge.svg)
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ### This for easy upload file via python flask . 
 - enable login page 

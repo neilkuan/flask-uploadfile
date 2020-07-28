@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from datetime import datetime, timezone, timedelta
 from flask import Flask, render_template, redirect, url_for, request, session, flash, jsonify, send_from_directory
@@ -120,7 +121,7 @@ def return_file(filename):
 # Upload file
 @app.route('/uploadfile', methods=['POST'])
 def upload_file():
-    res = None
+    res = redirect(url_for('index_page'))
     try:
         file = request.files['file']
         # if user does not select file, browser also
@@ -136,6 +137,9 @@ def upload_file():
             successres = str("Date " + what_time_is() + " 上傳 " + filename + " 成功")
 
             res = render_template('uploadPage.html', successres=successres)
+        if not allowed_file(file.filename):
+            flash('Not Allow File type , please upload type in txt, pdf, png, jpg, jpeg, gif, zip,tar')
+            res = redirect(url_for('index_page'))
     finally:
         return res
 

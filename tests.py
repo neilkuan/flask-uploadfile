@@ -88,6 +88,19 @@ class FlaskTestCase(unittest.TestCase):
         )
         response = tester.get('/show', content_type='html/text')
         self.assertIn( b'List File' , response.data,msg=None) 
+
+    # Ensure Upload File not in allow file .
+    def test_upload_not_allow_type_file(self):
+        tester = app.test_client(self)
+        tester.post(
+            '/login',
+            data=dict(username="admin", password=ppwd), 
+            follow_redirects=True
+        )
+        response = tester.post('/uploadfile', data=dict(
+            file=(io.BytesIO(b'hi everyone'), 'test.md'),
+        ))
+        self.assertEqual(response.status_code, 302)
     
     # Ensure Upload file api can use .
     def test_upload_file(self):

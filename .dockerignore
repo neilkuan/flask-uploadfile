@@ -22,3 +22,4 @@ coverage.xml
 pytest.ini
 tests.py
 try-py
+Dockerfile-alpine

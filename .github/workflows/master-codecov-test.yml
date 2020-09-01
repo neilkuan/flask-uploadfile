@@ -1,15 +1,14 @@
-
 name: Python Master Workflow
 on:
   push:
     branches:
-      - 'master'
+      - "master"
 jobs:
   codecov:
     name: Codecov Workflow
     runs-on: ubuntu-latest
     env:
-      PYTHON: '3.7'
+      PYTHON: "3.7"
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python
@@ -19,7 +18,8 @@ jobs:
       - name: set environment variables
         uses: allenevans/set-env@v1.0.0
         with:
-          PASSWORD: 'admin'
+          overwrite: false
+          PASSWORD: "admin"
       - name: Generate coverage report
         run: |
           pip install flask

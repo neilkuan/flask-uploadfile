@@ -38,13 +38,15 @@ docker-compose up -d
 
 
 
-### Use curl and wget  , uploadfile and downloadfile 
+### Use curl and wget  , uploadfile and downloadfile and deletefile
 ```bash
 $ touch aa.tar
 
 $ curl -X POST -F file=@"aa.tar" http://localhost:8080/uploadfile
 
 $ wget http://localhost:8080/downloadfile/aa.tar
+
+$ curl -X DELETE http://localhost:8080/deletefile/aa.tar
 ```
 
 

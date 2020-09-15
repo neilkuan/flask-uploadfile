@@ -156,5 +156,10 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.post('/',data=dict(logout='logout'))
         self.assertEqual(response.status_code, 302)
 
+    def test_zdelete_file(self):
+        tester = app.test_client(self)
+        response = tester.delete('/deletefile/test.txt')
+        self.assertIn( b'deleted' , response.data,msg=None) 
+
 if __name__ == '__main__':
     unittest.main()

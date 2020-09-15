@@ -118,6 +118,12 @@ def show():
 def return_file(filename):
     return send_from_directory(directory='pic', filename=filename, as_attachment=True)
 
+#Delete file
+@app.route('/deletefile/<filename>', methods=['DELETE'])
+def delete_file(filename):
+    os.remove(cwd + '/pic/' + filename)
+    return {"status": "deleted"}
+    
 # Upload file
 @app.route('/uploadfile', methods=['POST'])
 def upload_file():

@@ -1,4 +1,4 @@
-from app import app , get_file_size
+from app import app , get_file_size , creation_date
 from unittest.mock import patch
 import unittest
 import io 
@@ -182,6 +182,16 @@ class FlaskTestCase(unittest.TestCase):
         with patch('os.path.getsize', return_value=1024*1024*2):
             res = get_file_size("pwdfile")
         self.assertEqual(res,"2.0 MB ")
-        
+
+    def test_get_file_size_none(self):
+        res = get_file_size("pwdfile")
+        self.assertEqual(res,None)
+
+    def test_os_gettime_windows(self):
+        with patch('platform.system', return_value='Windows'):
+            with patch('os.path.getctime', return_value='time'):
+                res = creation_date("pwdfile")
+        self.assertEqual(res,'time')
+
 if __name__ == '__main__':
     unittest.main()

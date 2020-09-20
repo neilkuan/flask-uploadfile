@@ -53,7 +53,6 @@ def what_time_is():
 
 # get file size
 def get_file_size(path_to_file):
-    result = None
     try:
         size = os.path.getsize(path_to_file)
         if size <= 1024:
@@ -62,9 +61,8 @@ def get_file_size(path_to_file):
             result = str(round(size/1024, 2)) + " KB "
         if size > 1024*1024 and 1024*1024*1024 >= size:
             result = str(round(size/(1024*1024),2)) + " MB "
-    finally:
-        if result is None:
-            result = 'None'
+    except:
+        result = None
     return result
 
 # 解析檔案名稱
@@ -127,14 +125,13 @@ def delete_file(filename):
 # Upload file
 @app.route('/uploadfile', methods=['POST'])
 def upload_file():
-    res = redirect(url_for('index_page'))
+    error = None
     try:
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
         if file.filename == '':
-            flash('No selected file')
-            res = redirect(url_for('index_page'))
+            error = 'No selected file'
             raise RuntimeError
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -145,11 +142,11 @@ def upload_file():
 
             res = render_template('uploadPage.html', successres=successres)
         if not allowed_file(file.filename):
-            flash('Not Allow File type , please upload type in txt, pdf, png, jpg, jpeg, gif, zip,tar')
-            res = redirect(url_for('index_page'))
+            error = 'Not Allow File type , please upload type in txt, pdf, png, jpg, jpeg, gif, zip,tar'
             raise RuntimeError
     except RuntimeError:
-        pass
+        flash(error)
+        res = redirect(url_for('index_page'))
     return res
 
 # 建立上傳網址

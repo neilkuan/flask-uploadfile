@@ -1,4 +1,5 @@
-from app import app
+from app import app , get_file_size
+from unittest.mock import patch
 import unittest
 import io 
 import os 
@@ -166,5 +167,21 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.get('/show')
         self.assertEqual(response.status_code, 302)
 
+    
+    def test_get_file_size_bytes(self):
+        with patch('os.path.getsize', return_value=0):
+            res = get_file_size("pwdfile")
+        self.assertEqual(res,"0 bytes ")
+
+    def test_get_file_size_kb(self):
+        with patch('os.path.getsize', return_value=1024*2):
+            res = get_file_size("pwdfile")
+        self.assertEqual(res,"2.0 KB ")
+
+    def test_get_file_size_mb(self):
+        with patch('os.path.getsize', return_value=1024*1024*2):
+            res = get_file_size("pwdfile")
+        self.assertEqual(res,"2.0 MB ")
+        
 if __name__ == '__main__':
     unittest.main()

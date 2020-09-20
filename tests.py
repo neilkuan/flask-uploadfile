@@ -161,5 +161,10 @@ class FlaskTestCase(unittest.TestCase):
         response = tester.delete('/deletefile/test.txt')
         self.assertIn( b'deleted' , response.data,msg=None) 
 
+    def test_nologin_get_show(self):
+        tester = app.test_client(self)
+        response = tester.get('/show')
+        self.assertEqual(response.status_code, 302)
+
 if __name__ == '__main__':
     unittest.main()

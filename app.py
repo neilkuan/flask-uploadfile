@@ -135,6 +135,7 @@ def upload_file():
         if file.filename == '':
             flash('No selected file')
             res = redirect(url_for('index_page'))
+            raise RuntimeError
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # 儲存在 app 本地端
@@ -146,7 +147,8 @@ def upload_file():
         if not allowed_file(file.filename):
             flash('Not Allow File type , please upload type in txt, pdf, png, jpg, jpeg, gif, zip,tar')
             res = redirect(url_for('index_page'))
-    except:
+            raise RuntimeError
+    except RuntimeError:
         pass
     return res
 

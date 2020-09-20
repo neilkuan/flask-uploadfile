@@ -146,8 +146,9 @@ def upload_file():
         if not allowed_file(file.filename):
             flash('Not Allow File type , please upload type in txt, pdf, png, jpg, jpeg, gif, zip,tar')
             res = redirect(url_for('index_page'))
-    finally:
-        return res
+    except:
+        pass
+    return res
 
 # 建立上傳網址
 @app.route('/', methods=['GET', 'POST'])

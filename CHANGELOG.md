@@ -2,11 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.7.7](https://github.com/guan840912/flask-uploadfile/compare/v1.7.6...v1.7.7) (2020-09-26)
-
-### [1.7.6](https://github.com/guan840912/flask-uploadfile/compare/v1.7.4...v1.7.6) (2020-09-26)
-
-
 ### Bug Fixes
 
 * **core:** add codecov ignore ([8402e21](https://github.com/guan840912/flask-uploadfile/commit/8402e21b3cd9e51f4dee1af11c2a25590598feec))

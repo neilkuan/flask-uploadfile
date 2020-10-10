@@ -7,15 +7,18 @@ import json
 import platform
 from functools import wraps
 import secrets
-
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+jwt = JWTManager()
 
 cwd = os.getcwd()
 URL=os.getenv('URL')
 UPLOAD_FOLDER = cwd + '/pic/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'zip','tar'])
 app = Flask(__name__)
+jwt_secret_key = secrets.token_hex(16)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.config['JWT_SECRET_KEY'] = jwt_secret_key
+jwt.init_app(app)
 # add secret key , example output, secret_key = 000d88cd9d90036ebdd237eb6b0db000
 secret_key = secrets.token_hex(16)
 app.secret_key = secret_key
@@ -93,6 +96,25 @@ def login():
             
     return render_template('login.html', error=error)
 
+@app.route('/login_jwt', methods=['POST'])
+def login_jwt():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    if username != 'admin' or password != 'admin':
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # Identity can be any data that is json serializable
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
 @app.route('/ping')
 def test():
     return jsonify({"message": "pong!!!" })
@@ -113,17 +135,20 @@ def show():
     
 #Download file
 @app.route('/downloadfile/<filename>', methods=['GET'])
+@jwt_required
 def return_file(filename):
     return send_from_directory(directory='pic', filename=filename, as_attachment=True)
 
 #Delete file
 @app.route('/deletefile/<filename>', methods=['DELETE'])
+@jwt_required
 def delete_file(filename):
     os.remove(cwd + '/pic/' + filename)
-    return {"status": "deleted"}
+    return {"status": "deleted"}, 201
     
 # Upload file
 @app.route('/uploadfile', methods=['POST'])
+@jwt_required
 def upload_file():
     error = None
     try:

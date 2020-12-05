@@ -68,8 +68,7 @@ jobs:
         id: build-and-push
         uses: pahud/ecr-public-action@12e969f
         with:
-          context: .devcontainer
-          dockerfile: ./.devcontainer/Dockerfile
+          dockerfile: ./Dockerfile-alpine
           tags: |
             public.ecr.aws/w4j7f3u2/${{ steps.repoName.outputs.reponame }}:latest
             public.ecr.aws/w4j7f3u2/${{ steps.repoName.outputs.reponame }}:${{ steps.sha.outputs.sha8 }}

@@ -28,7 +28,7 @@ open your browser http://localhost:8080
 
 ### Usage Docker  
 ```bash
-docker run -d -p 8080:8080 guanyebo/flask-uploadfile
+docker run -d -p docker pull ghcr.io/guan840912/flask-uploadfile/flask-uploadfile:latest
 ```
 
 ### Usage Docker-compose 

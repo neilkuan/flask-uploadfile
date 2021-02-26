@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   api:
-    image: guanyebo/flask-uploadfile
+    image: ghcr.io/guan840912/flask-uploadfile/flask-uploadfile:latest
     container_name: python-flask
     privileged: true
     ports:

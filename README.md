@@ -1,7 +1,7 @@
 # flask-uploadfile
-[![CodeFactor](https://www.codefactor.io/repository/github/guan840912/flask-uploadfile/badge/master)](https://www.codefactor.io/repository/github/guan840912/flask-uploadfile/overview/master)
-[![codecov](https://codecov.io/gh/guan840912/flask-uploadfile/branch/master/graph/badge.svg)](https://codecov.io/gh/guan840912/flask-uploadfile)
-![Publish Docker](https://github.com/guan840912/flask-uploadfile/workflows/Publish%20Docker/badge.svg)
+[![CodeFactor](https://www.codefactor.io/repository/github/neilkuan/flask-uploadfile/badge/master)](https://www.codefactor.io/repository/github/neilkuan/flask-uploadfile/overview/master)
+[![codecov](https://codecov.io/gh/neilkuan/flask-uploadfile/branch/master/graph/badge.svg)](https://codecov.io/gh/neilkuan/flask-uploadfile)
+![Publish Docker](https://github.com/neilkuan/flask-uploadfile/workflows/Publish%20Docker/badge.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ### This for easy upload file via python flask . 
@@ -13,7 +13,7 @@
 
 ### also can run in local 
 ```bash
-$ git clone https://github.com/guan840912/flask-uploadfile.git
+$ git clone https://github.com/neilkuan/flask-uploadfile.git
 
 $ cd flask-uploadfile/
 
@@ -28,7 +28,7 @@ open your browser http://localhost:8080
 
 ### Usage Docker  
 ```bash
-docker run -d -p 8080:8080 ghcr.io/guan840912/flask-uploadfile/flask-uploadfile:latest
+docker run -d -p 8080:8080 ghcr.io/neilkuan/flask-uploadfile/flask-uploadfile:latest
 ```
 
 ### Usage Docker-compose 

@@ -3,7 +3,6 @@ import os
 from datetime import datetime, timezone, timedelta
 from flask import Flask, render_template, redirect, url_for, request, session, flash, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
-import json
 import platform
 from functools import wraps
 import secrets
@@ -114,7 +113,7 @@ def show():
 #Download file
 @app.route('/downloadfile/<filename>', methods=['GET'])
 def return_file(filename):
-    return send_from_directory(directory='pic', filename=filename, as_attachment=True)
+    return send_from_directory(directory='pic', path=filename, as_attachment=True)
 
 #Delete file
 @app.route('/deletefile/<filename>', methods=['DELETE'])

@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:3.9-slim
 LABEL MAINTAINER="Neil Kuan"
 LABEL NAME="flask-upload"
 LABEL Version="v1.7.3"
